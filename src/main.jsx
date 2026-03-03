@@ -20,7 +20,7 @@ import { Provider } from "react-redux";
  // Redux store
 import App from "./App";               // App with Router
 import "./index.css";
-import { store } from "./App/store";                  // Tailwind CSS
+import { store } from "./app/store";                  // Tailwind CSS
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
