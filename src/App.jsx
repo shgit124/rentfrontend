@@ -33,11 +33,11 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-         <Route path="/carlist" element={<CarList />} />
-            <Route path="/CarForm" element={<CarForm />} />
-             <Route path="/Update" element={<Update />} />
-
-        {/* You can add more pages later like About, Dashboard, etc. */}
+        <Route path="/carlist" element={<CarList />} />
+        <Route path="/CarForm" element={<CarForm />} />
+        <Route path="/Update" element={<Update />} />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </Router>
   );
