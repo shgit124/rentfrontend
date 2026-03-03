@@ -1,21 +1,3 @@
-// import { Link } from "react-router-dom";
-
-// function Navbar() {
-//   return (
-//     <nav className="bg-gray-800 text-white px-6 py-3 w-full flex justify-between">
-//       <Link to="/" className="font-bold text-lg">Branded used car</Link>
-//       <div className="space-x-4">
-//         <Link to="/">Home</Link>
-//         <Link to="/CarList">carList</Link>
-//         <Link to='CarForm'>Add car</Link>
-//          <Link to='Update'>update</Link>
-//       </div>
-//     </nav>
-//   );
-// }
-
-// export default Navbar;
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -33,28 +15,30 @@ function Navbar() {
 
         {/* Hamburger Button (Mobile Only) */}
         <button
-          className="md:hidden text-2xl"
           onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden flex flex-col space-y-1"
         >
-          ☰
+          <span className="block w-6 h-0.5 bg-white"></span>
+          <span className="block w-6 h-0.5 bg-white"></span>
+          <span className="block w-6 h-0.5 bg-white"></span>
         </button>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-6">
           <Link to="/" className="hover:text-gray-300">Home</Link>
           <Link to="/carlist" className="hover:text-gray-300">Car List</Link>
-          <Link to="/carform" className="hover:text-gray-300">Add Car</Link>
-          <Link to="/update" className="hover:text-gray-300">Update</Link>
+          <Link to="/CarForm" className="hover:text-gray-300">Add Car</Link>
+          <Link to="/Update" className="hover:text-gray-300">Update</Link>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden flex flex-col px-6 pb-4 space-y-2 bg-gray-700">
-          <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-          <Link to="/carlist" onClick={() => setIsOpen(false)}>Car List</Link>
-          <Link to="/carform" onClick={() => setIsOpen(false)}>Add Car</Link>
-          <Link to="/update" onClick={() => setIsOpen(false)}>Update</Link>
+        <div className="md:hidden px-6 pb-4 space-y-2">
+          <Link to="/" className="block py-2 hover:text-gray-300">Home</Link>
+          <Link to="/carlist" className="block py-2 hover:text-gray-300">Car List</Link>
+          <Link to="/CarForm" className="block py-2 hover:text-gray-300">Add Car</Link>
+          <Link to="/Update" className="block py-2 hover:text-gray-300">Update</Link>
         </div>
       )}
     </nav>

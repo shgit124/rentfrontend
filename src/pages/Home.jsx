@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CarForm from "../Components/CarForm";
+import CarForm from "../components/CarForm";
 import CarList from "../components/CarList";
 import Navbar from "../components/Navbar";
 
