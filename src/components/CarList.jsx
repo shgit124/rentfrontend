@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCars, deleteCar } from "../features/cars/carSlice";
+import { deleteCar } from "../features/cars/carSlice";
 
 const CarList = ({ setEditCar }) => {
   const dispatch = useDispatch();
@@ -8,11 +8,8 @@ const CarList = ({ setEditCar }) => {
   console.log("Cars from store:", cars);
 
   useEffect(() => {
-    // Try to fetch from API, but don't fail if it doesn't work
-    dispatch(fetchCars()).catch(err => {
-      console.log("API fetch failed, using mock data");
-    });
-  }, [dispatch]);
+    // No need to fetch since we have mock data
+  }, []);
 
   if (!cars || cars.length === 0) {
     return (

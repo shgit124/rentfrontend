@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCars, deleteCar } from "../features/cars/carSlice";
+import { deleteCar } from "../features/cars/carSlice";
 
 
 
@@ -11,12 +11,6 @@ const About = ({ setEditCar }) => {
 
   const dispatch = useDispatch();
   const { cars } = useSelector((state) => state.cars);
-  
-
-  useEffect(() => {
-    dispatch(fetchCars());
-  }, [dispatch]);
-
   
 
   return (

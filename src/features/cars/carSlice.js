@@ -9,24 +9,6 @@ export const fetchCars = createAsyncThunk("cars/fetchCars", async () => {
   return response.data;
 });
 
-// ADD
-export const addCar = createAsyncThunk("cars/addCar", async (car) => {
-  const response = await axios.post(API_URL, car);
-  return response.data;
-});
-
-// UPDATE
-export const updateCar = createAsyncThunk("cars/updateCar", async (car) => {
-  const response = await axios.put(`${API_URL}/${car.id}`, car);
-  return response.data;
-});
-
-// DELETE
-export const deleteCar = createAsyncThunk("cars/deleteCar", async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
-  return id;
-});
-
 const carSlice = createSlice({
   name: "cars",
   initialState: {
@@ -58,37 +40,39 @@ const carSlice = createSlice({
     ],
     loading: false,
   },
-  reducers: {},
+  reducers: {
+    addCar: (state, action) => {
+      const newCar = {
+        ...action.payload,
+        id: Date.now(), // Simple ID generation
+      };
+      state.cars.push(newCar);
+    },
+    updateCar: (state, action) => {
+      const index = state.cars.findIndex(
+        (car) => car.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.cars[index] = action.payload;
+      }
+    },
+    deleteCar: (state, action) => {
+      state.cars = state.cars.filter(
+        (car) => car.id !== action.payload
+      );
+    },
+    setCars: (state, action) => {
+      state.cars = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCars.fulfilled, (state, action) => {
         state.cars = action.payload;
-      })
-      .addCase(addCar.fulfilled, (state, action) => {
-        state.cars.push(action.payload);
-      })
-      // .addCase(updateCar.fulfilled, (state, action) => {
-      //   const index = state.cars.findIndex(
-      //     (car) => car.id === action.payload.id
-      //   );
-      //   state.cars[index] = action.payload;
-      // })
-
-      .addCase(updateCar.fulfilled, (state, action) => {
-  const index = state.cars.findIndex(
-    (car) => car.id === action.payload.id
-  );
-
-  if (index !== -1) {
-    state.cars[index] = action.payload;
-  }
-})
-      .addCase(deleteCar.fulfilled, (state, action) => {
-        state.cars = state.cars.filter(
-          (car) => car.id !== action.payload
-        );
       });
   },
 });
+
+export const { addCar, updateCar, deleteCar, setCars } = carSlice.actions;
 
 export default carSlice.reducer;
