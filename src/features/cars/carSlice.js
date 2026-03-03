@@ -1,18 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
-const API_URL = "http://localhost:3000/cars";
-
-// GET
-export const fetchCars = createAsyncThunk("cars/fetchCars", async () => {
-  const response = await axios.get(API_URL);
-  return response.data;
-});
-
-const carSlice = createSlice({
-  name: "cars",
-  initialState: {
-    cars: [
+// Load cars from localStorage or use default data
+const loadCarsFromStorage = () => {
+  try {
+    const storedCars = localStorage.getItem('cars');
+    return storedCars ? JSON.parse(storedCars) : [
       {
         id: 1,
         brand: "Toyota",
@@ -37,7 +29,17 @@ const carSlice = createSlice({
         pricePerDay: 120,
         status: "Rented"
       }
-    ],
+    ];
+  } catch (error) {
+    console.error('Error loading cars from localStorage:', error);
+    return [];
+  }
+};
+
+const carSlice = createSlice({
+  name: "cars",
+  initialState: {
+    cars: loadCarsFromStorage(),
     loading: false,
   },
   reducers: {
@@ -47,6 +49,8 @@ const carSlice = createSlice({
         id: Date.now(), // Simple ID generation
       };
       state.cars.push(newCar);
+      // Save to localStorage
+      localStorage.setItem('cars', JSON.stringify(state.cars));
     },
     updateCar: (state, action) => {
       const index = state.cars.findIndex(
@@ -54,25 +58,24 @@ const carSlice = createSlice({
       );
       if (index !== -1) {
         state.cars[index] = action.payload;
+        // Save to localStorage
+        localStorage.setItem('cars', JSON.stringify(state.cars));
       }
     },
     deleteCar: (state, action) => {
       state.cars = state.cars.filter(
         (car) => car.id !== action.payload
       );
+      // Save to localStorage
+      localStorage.setItem('cars', JSON.stringify(state.cars));
     },
     setCars: (state, action) => {
       state.cars = action.payload;
+      // Save to localStorage
+      localStorage.setItem('cars', JSON.stringify(state.cars));
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchCars.fulfilled, (state, action) => {
-        state.cars = action.payload;
-      });
   },
 });
 
 export const { addCar, updateCar, deleteCar, setCars } = carSlice.actions;
-
 export default carSlice.reducer;
