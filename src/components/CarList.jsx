@@ -2,22 +2,28 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCars, deleteCar } from "../features/cars/carSlice";
 
-
 const CarList = ({ setEditCar }) => {
   const dispatch = useDispatch();
   const { cars } = useSelector((state) => state.cars);
-  console.log(cars);
+  console.log("Cars from store:", cars);
 
   useEffect(() => {
-    dispatch(fetchCars());
+    // Try to fetch from API, but don't fail if it doesn't work
+    dispatch(fetchCars()).catch(err => {
+      console.log("API fetch failed, using mock data");
+    });
   }, [dispatch]);
 
+  if (!cars || cars.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-500">No cars available</p>
+      </div>
+    );
+  }
+
   return (
-
     <div>
-
-
-
       {cars.map((car) => (
         <div key={car.id} className="bg-gray-100 p-4 mb-3 rounded flex justify-between items-center">
           <div>
@@ -48,7 +54,6 @@ const CarList = ({ setEditCar }) => {
           </div>
         </div>
       ))}
-
     </div>
   );
 };

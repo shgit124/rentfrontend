@@ -28,15 +28,40 @@ export const deleteCar = createAsyncThunk("cars/deleteCar", async (id) => {
 });
 
 const carSlice = createSlice({
-     name: "cars",
-     initialState: {
-     cars: [],
-     loading: false,
+  name: "cars",
+  initialState: {
+    cars: [
+      {
+        id: 1,
+        brand: "Toyota",
+        model: "Camry",
+        year: 2022,
+        pricePerDay: 50,
+        status: "Available"
+      },
+      {
+        id: 2,
+        brand: "Honda",
+        model: "Accord",
+        year: 2021,
+        pricePerDay: 45,
+        status: "Available"
+      },
+      {
+        id: 3,
+        brand: "BMW",
+        model: "X5",
+        year: 2023,
+        pricePerDay: 120,
+        status: "Rented"
+      }
+    ],
+    loading: false,
   },
-    reducers: {},
-    extraReducers: (builder) => {
-     builder
-.addCase(fetchCars.fulfilled, (state, action) => {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCars.fulfilled, (state, action) => {
         state.cars = action.payload;
       })
       .addCase(addCar.fulfilled, (state, action) => {
